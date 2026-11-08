@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>Follow Your Curiosity · Darling Deanne</title>
+  <style>
+    * { box-sizing:border-box; }
+    body { margin:0; background:#fff; }
+    .collection {
+      position:relative;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,520px));
+      grid-auto-rows:725px;
+      justify-content:center;
+      gap:clamp(10px,calc((100vw - 990px) / 22),30px);
+      max-width:1650px;
+      padding:0 clamp(5px,calc((100vw - 990px) / 44),15px);
+      margin:auto;
+      overflow:clip;
+    }
+    .panel {
+      position:relative; min-width:0; opacity:1;
+      transform-origin:50% 360px;
+      transition:transform 420ms cubic-bezier(.22,.61,.36,1), opacity 320ms ease;
+    }
+    iframe { display:block; width:100%; height:725px; border:0; transition:filter 420ms ease; }
+    .panel[data-active] { z-index:1; }
+    .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel[data-active] {
+      transform:translate(var(--shift-x),-8px) scale(1.04);
+    }
+    @media (min-width:990px) {
+      .panel::after {
+        content:""; position:absolute; top:360px; left:50%;
+        width:clamp(140px,38.46%,200px); aspect-ratio:1;
+        translate:-50% -50%; border-radius:50%; pointer-events:none;
+        background:linear-gradient(145deg,#fff9,#f7f9fb33 50%,#e4ecf455);
+        box-shadow:inset 0 0 16px #fff,0 0 14px #c6d3df66;
+        opacity:0; transition:opacity 320ms ease;
+      }
+      .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel:not([data-active]) {
+        opacity:.26; transform:translateX(var(--peer-shift-x,0px));
+      }
+      .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel:not([data-active]) iframe { filter:blur(3px); }
+      .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel:not([data-active])::after { opacity:1; }
+    }
+    .close {
+      position:absolute; z-index:2; top:24px; right:24px;
+      min-height:44px; padding:8px 12px;
+      color:#181b1e; background:white; border:0; border-bottom:1px solid #d3d4d7;
+      font:400 16px/20px Inter, Arial, sans-serif; cursor:pointer;
+    }
+    .close:hover { border-color:currentColor; }
+    .close:focus-visible { outline:none; border-bottom:2px solid currentColor; }
+    @font-face { font-family:Inter; src:url("fonts/inter.woff2") format("woff2"); font-weight:400; font-display:swap; }
+    @media (max-width:989px) {
+      .collection { grid-template-columns:minmax(0,520px); gap:0; padding:0; }
+      .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) { height:773px; }
+      .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel:not([data-active]) { opacity:0; }
+      .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel[data-active] {
+        transform:translateY(calc(var(--shift-y) - 6px)) scale(1.02);
+      }
+      .close { top:2px; right:16px; }
+    }
+    @media (prefers-reduced-motion:reduce) { .panel,.panel::after,.panel iframe { transition:none; } }
+  </style>
+</head>
+<body>
+  <main class="collection" aria-label="Follow Your Curiosity" data-phase="overview">
+    <button class="close" type="button" hidden>Close <span aria-hidden="true">×</span></button>
+    <div class="panel"><iframe src="audio.html?v=a8386c071741" title="Audio — What curiosity sounds like" allow="autoplay"></iframe></div>
+    <div class="panel"><iframe src="textures.html?v=daea89fb6c63" title="Textures — Follow Your Curiosity"></iframe></div>
+    <div class="panel"><iframe src="stuart.html?v=eb1355059c9b" title="Stuart — What happens when"></iframe></div>
+  </main>
+  <script type="module" src="collection.js?v=bc0aa799db0b"></script>
+</body>
+</html>

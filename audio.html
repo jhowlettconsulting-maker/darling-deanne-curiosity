@@ -1,0 +1,846 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>What curiosity sounds like · Deanne</title>
+<style>@font-face{font-family:"Cormorant Garamond";src:url("fonts/cormorant-garamond.woff2") format("woff2");font-weight:400 500;font-display:swap}
+@font-face{font-family:Inter;src:url("fonts/inter.woff2") format("woff2");font-weight:300 400;font-display:swap}
+html,body{background:0 0;min-height:100%;margin:0}.sound-experience,.sound-experience *{box-sizing:border-box}.sound-experience{color:#292929;font-synthesis:none;isolation:isolate;background:0 0;grid-template-rows:minmax(700px,1fr) 140px;width:100%;height:100svh;min-height:840px;font:14px Arial,Helvetica,sans-serif;display:grid;position:relative}.sound-experience [hidden]{display:none!important}.sound-stage{isolation:isolate;min-width:0;position:relative}.central-disc{z-index:1;pointer-events:none;background:#fff;border:1px solid #7775;border-radius:50%;width:200px;height:200px;position:absolute;transform:translate(-50%,-50%)}.resting-copy{text-align:center;flex-direction:column;justify-content:center;align-items:center;gap:10px;display:flex;position:absolute;inset:22px}.resting-copy h1{text-wrap:balance;margin:0;font:18px/1.25 Georgia,Times New Roman,serif}.resting-copy p{color:#707070;text-wrap:balance;margin:0;font:16px/1.4 Arial,Helvetica,sans-serif}.sound-item{appearance:none;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;z-index:2;background:0 0;border:0;border-radius:50%;margin:0;padding:0;position:absolute;transform:translate(-50%,-50%)}.sound-image{transform-origin:50%;background:#fff;border:1px solid #7773;border-radius:50%;position:absolute;inset:0;overflow:hidden}.sound-image img{object-fit:cover;width:100%;height:100%;display:block}.sound-item[data-image-missing=true] .sound-image{background:0 0;border-color:#7775}.sound-item[aria-pressed=true] .sound-image{border-color:#0000}.sound-label{color:#292929;text-align:center;text-wrap:balance;pointer-events:none;width:max-content;min-width:0;max-width:138px;margin-top:0;font:14px/18px Arial,Helvetica,sans-serif;display:block;position:absolute;top:158%;left:50%;transform:translate(-50%)}.sound-item:focus-visible{outline-offset:8px;outline:1px solid #292929}.sound-item[aria-pressed=true]:focus-visible{outline:0}.sound-experience:has(.sound-item[aria-pressed=true]:focus-visible) .central-disc{border-width:2px;border-color:#292929}.sound-item[aria-pressed=true]{z-index:4}.sound-shadow{pointer-events:none;z-index:0;filter:blur(1.8px);background:radial-gradient(#191b1d29 0%,#191b1d1f 30%,#191b1d0d 63%,#0000 93%);border-radius:50%;position:absolute;transform:translate(-50%,-50%)}.sound-shadow[data-selected=true]{z-index:2}.vacant-sound{appearance:none;z-index:3;cursor:pointer;background:0 0;border:0;border-radius:50%;padding:0;position:absolute;transform:translate(-50%,-50%)}.vacant-sound:focus-visible{outline-offset:5px;outline:1px dashed #777}.sound-control{appearance:none;z-index:6;min-height:44px;color:inherit;letter-spacing:.025em;cursor:pointer;background:0 0;border:0;border-bottom:1px solid #8888;padding:10px 2px;font:14px Arial,Helvetica,sans-serif;position:absolute;top:24px}.sound-control:hover{border-bottom-color:#292929}.sound-control:focus-visible{outline-offset:5px;outline:1px solid #292929}.sound-control:disabled{opacity:.45;cursor:default}.collection-control{left:28px}.mute-control{right:28px}.replay-control{left:50%;transform:translate(-50%)}.question-band{flex-direction:column;justify-content:flex-start;align-items:center;gap:12px;min-height:140px;padding:18px 20px 28px;display:flex;position:relative}.sound-caption{color:#66696e;text-align:center;text-wrap:balance;margin:0;font:14px/18px Arial,Helvetica,sans-serif}.sound-question{color:#292929;text-align:center;text-wrap:balance;opacity:0;max-width:700px;margin:0;font:18px/1.35 Georgia,Times New Roman,serif;transition:opacity .35s}.playback-status{color:#707070;text-align:center;max-width:700px;margin:0 auto;font:12px/1.4 Arial,Helvetica,sans-serif;position:absolute;bottom:8px;left:20px;right:20px}.playback-status:empty{display:none}@media (width<=599px){.sound-experience{grid-template-rows:minmax(700px,1fr) 140px;min-height:840px}.sound-control{top:12px}.collection-control{left:20px}.mute-control{right:20px}}@media (width<=360px){.sound-label{max-width:104px}.collection-control{left:14px}.mute-control{right:14px}}@media (width<=599px){.sound-experience:not([data-collection-open]) .sound-label{text-wrap:balance;max-width:calc(25vw - 6px)}}@media (prefers-reduced-motion:reduce){.sound-question{transition:none}}.sound-experience[data-reduced=true] .sound-question{transition:none}
+/*$vite$:1*/
+:root {
+ --circle-title-leading:calc(.9em + 2px);
+ --open-title-top:105px;
+ --open-question-top:597px;
+ --open-title-size:44px;
+ --open-question-size:24px;
+ --open-serif:"Cormorant Garamond", Georgia, serif;
+}
+/* The stacked grid needs room for the last row's hover captions. */
+[data-grid-layout] { --open-question-top:620px; }
+@media(max-width:479px) {
+ :root { --open-title-size:clamp(26px,9.25vw,36px); --open-question-size:22px; }
+}
+
+:root {
+ --ink:#181b1e;
+ --quiet:#66696e;
+ --question:#45484c;
+ --faint:#84868a;
+ --outline:#d3d4d7;
+ --serif:"Cormorant Garamond", Georgia, serif;
+ --sans:Inter, Arial, sans-serif;
+}
+html,body { height:100%; margin:0; background:white; }
+.sound-experience :is(#collection,#mute),#experience :is(#return,#motion) { display:none; }
+
+/* Scale each orbit around its own circle, including the matching hit areas. */
+:is(#sound-items,#sound-shadows,#renders,#shadows,#targets) {
+ position:absolute; inset:0;
+ transform-origin:50% var(--hub-y,360px);
+ scale:.14; opacity:0;
+ transition:scale .5s cubic-bezier(.5,0,.72,.65),opacity .38s ease .1s;
+}
+[data-collection-open="true"] :is(#sound-items,#sound-shadows,#renders,#shadows,#targets) {
+ scale:none; opacity:1;
+ transition:scale .68s cubic-bezier(.22,.72,.26,1),opacity .42s ease;
+}
+#sound-items { z-index:2; pointer-events:none; }
+#sound-items > :is(.sound-item,.vacant-sound) { pointer-events:auto; }
+#renders { z-index:4; }
+#targets { z-index:5; }
+[data-collection-open="false"] :is(.sound-selected-title,.question-band,#material-caption,#grass-tools,#texture-action) { visibility:hidden; }
+[data-collection-open="false"] :is(.sound-label,.texture-label) { visibility:hidden; }
+@media(prefers-reduced-motion:reduce) {
+ :is(#sound-items,#sound-shadows,#renders,#shadows,#targets) { transition:none !important; }
+}
+
+/* Audio */
+.sound-experience { height:725px; min-height:0; grid-template-rows:var(--open-question-top) minmax(0,1fr); color:var(--ink); font-family:var(--sans); }
+.central-disc,#hub { border:1.5px solid var(--ink); }
+.audio-gate {
+ position:absolute; z-index:3; top:var(--hub-y,360px); left:50%; transform:translate(-50%,-50%);
+ width:var(--hub-size,200px); height:var(--hub-size,200px); border:0; border-radius:50%; background:transparent;
+ cursor:pointer;
+}
+.audio-gate:focus-visible { outline:2px solid #d4ba8a; outline-offset:4px; }
+[data-collection-open="false"] .sound-control,
+.sound-experience[data-state="selected"] .audio-gate { display:none; }
+.resting-copy { inset:12px; gap:6px; }
+.resting-copy h1,#hub-copy>span,#discovery-copy>span {
+ font:400 26px/var(--circle-title-leading) var(--serif);
+ text-wrap:balance;
+ translate:0 1px;
+}
+.resting-copy p,#hub-copy small,#discovery-copy small {
+ color:var(--quiet);
+ font:300 14px/20px var(--sans);
+ padding-top:5px;
+}
+.sound-image { border-color:var(--outline); }
+.sound-label,.texture-label {
+ position:absolute;
+ left:50%;
+ top:calc(100% + 10.5px);
+ width:max-content;
+ max-width:138px;
+ color:var(--quiet);
+ font:400 14px/18px var(--sans);
+ letter-spacing:.02em;
+ text-align:center;
+ text-wrap:balance;
+ pointer-events:none;
+ opacity:0;
+ transform:translate(-50%,-2px);
+ transition:opacity .4s ease,transform .5s ease;
+}
+:is(.sound-item,.material-target):disabled > :is(.sound-label,.texture-label) { visibility:hidden; }
+:is(.sound-item,.material-target):not(:disabled,[aria-pressed="true"]):is(:hover,:focus-visible) > :is(.sound-label,.texture-label) {
+ opacity:1;
+ transform:translate(-50%);
+}
+@media(prefers-reduced-motion:reduce) {
+ .sound-label,.texture-label { transition:none; }
+}
+.sound-item:disabled { cursor:default; }
+.sound-control { top:24px; font:400 14px/20px var(--sans); }
+.sound-selected-title {
+ position:absolute; inset-inline:12px; margin:0; text-align:center; pointer-events:none;
+}
+.sound-selected-title,#material-caption h1 {
+ top:var(--open-title-top); font:400 var(--open-title-size)/1.1 var(--open-serif); letter-spacing:-.005em;
+}
+.question-band { min-height:0; gap:0; padding:0 16px 24px; }
+.sound-caption { margin-bottom:4px; color:var(--quiet); font:300 14px/18px var(--sans); }
+.sound-question { --sound-question-size:var(--open-question-size); }
+.sound-question,#material-question {
+ color:var(--question);
+ font:500 var(--sound-question-size,var(--open-question-size))/1.25 var(--open-serif);
+ text-wrap:balance;
+}
+.playback-status { position:static; margin:2px 0 0; font:300 13px/17px var(--sans); }
+/* Leave room for Endora's label at the bottom of the orbit. */
+@media (min-width:420px) {
+ :root:not([data-grid-layout]) .sound-experience[data-state="selected"]:has(.sound-item[data-id="endora"]:not([aria-pressed="true"]):is(:hover,:focus-visible)) .question-band {
+  padding-top:calc(var(--endora-clearance,625px) - var(--open-question-top));
+ }
+}
+
+/* Textures */
+#experience { height:725px; }
+#hub-copy,#discovery-copy { inset:12px; gap:6px; }
+#experience .quiet-button,#experience #grass-tools { top:24px; }
+#experience .quiet-button { font-family:var(--sans); }
+#experience #grass-tools button { font-family:var(--sans); }
+#material-caption { display:contents; animation:none; }
+#material-caption h1,#material-question {
+ position:absolute; z-index:6; left:12px; right:12px; margin:0 auto;
+ text-align:center; pointer-events:none; max-width:576px;
+}
+#material-question { top:var(--open-question-top); }
+#experience .quiet-button,#experience #grass-tools { z-index:7; }
+.sound-shadow:not([data-selected="true"]),
+#experience .render-shadow[data-orbit] {
+ width:56.3px !important; height:9.7px !important;
+ margin-left:-7px; margin-top:-18px;
+ background:radial-gradient(ellipse,#8c8f944d,transparent 72%) !important;
+ filter:blur(4px) !important;
+}
+@media(max-width:479px) {
+ .sound-experience { --endora-clearance:612px; }
+ [data-grid-layout] .sound-label { max-width:calc(100vw / var(--audio-grid-columns,3) - 4px); }
+ [data-grid-layout] .sound-experience:has(.sound-caption:not([hidden])) { grid-template-rows:calc(var(--open-question-top) - 36px) minmax(0,1fr); }
+ [data-grid-layout] .sound-caption:not([hidden]) + .sound-question { --sound-question-size:20px; }
+ [data-grid-layout] .texture-label {
+  top:calc(100% + 2px);
+  max-width:calc(100vw / 3 - 6px);
+  font-size:clamp(12px,3.2vw,14px);
+  line-height:16px;
+ }
+ :root:not([data-grid-layout]) :is(.sound-label,.texture-label) { max-width:clamp(94px,27vw,126px); font-size:clamp(12px,3.1vw,14px); }
+ :root:not([data-grid-layout]) :is(.resting-copy h1,#hub-copy>span,#discovery-copy>span) { font-size:clamp(20px,5.7vw,26px); }
+ :root:not([data-grid-layout]) :is(.resting-copy p,#hub-copy small,#discovery-copy small) { font-size:clamp(12px,3.25vw,14px); line-height:1.3; padding-top:2px; }
+ .sound-shadow:not([data-selected="true"]),
+ #experience .render-shadow[data-orbit] { margin-left:-5px; margin-top:-12px; }
+ .sound-question,#material-question { line-height:1.2; }
+}
+@media(max-width:395px) {
+ #experience #grass-tools,#experience #texture-action { top:675px; }
+ #experience:has(#grass-tools:not([hidden]),#texture-action:not([hidden])) #material-question { line-height:1.12; }
+}
+</style></head>
+<body>
+  <main class="sound-experience" id="sound-experience" data-state="resting" data-collection-open="false">
+    <section class="sound-stage" id="sound-stage" aria-label="Explore the sounds">
+      <div id="sound-shadows" aria-hidden="true"></div>
+      <div class="central-disc" id="central-disc"><div class="resting-copy" id="resting-copy"><h1></h1><p></p></div></div>
+      <div id="sound-items"></div>
+      <button class="audio-gate" data-collection-gate type="button" aria-expanded="false" aria-controls="sound-items" aria-label="What curiosity sounds like. Click to discover."></button>
+      <h2 class="sound-selected-title" data-selected-title hidden></h2>
+      <button class="sound-control collection-control" id="collection" type="button" hidden></button>
+      <button class="sound-control replay-control" id="replay" type="button" hidden></button>
+      <button class="sound-control mute-control" id="mute" type="button"></button>
+    </section>
+    <footer class="question-band">
+      <p class="sound-caption" id="sound-caption" hidden></p>
+      <p class="sound-question" id="sound-question" aria-live="polite" aria-atomic="true"></p>
+      <p class="playback-status" id="playback-status" role="status"></p>
+    </footer>
+    <audio id="recording" preload="none"></audio>
+  </main>
+  <script type="module">// sound-experience/src/audio-player.js
+var e = class {
+	constructor(e, { onStatus: t = () => {}, contextFactory: n = () => new (globalThis.AudioContext || globalThis.webkitAudioContext)() } = {}) {
+		this.audio = e, this.onStatus = t, this.contextFactory = n, this.serial = 0, this.activeId = null, this.muted = !1, this.disposed = !1, this.context = null, this.analyser = null, e.loop = !1, e.playbackRate = 1, this.ended = () => {
+			this.disposed || this.onStatus("ended", this.activeId);
+		}, this.failed = () => {
+			!this.disposed && this.activeId && this.onStatus("error", this.activeId);
+		}, e.addEventListener("ended", this.ended), e.addEventListener("error", this.failed);
+	}
+	ensureAnalysis() {
+		if (!this.context) try {
+			this.context = this.contextFactory(), this.source = this.context.createMediaElementSource(this.audio), this.analyser = this.context.createAnalyser(), this.analyser.fftSize = 1024, this.source.connect(this.analyser), this.analyser.connect(this.context.destination), this.samples = new Float32Array(this.analyser.fftSize);
+		} catch {
+			this.analyser = null;
+			try {
+				this.source?.connect(this.context.destination);
+			} catch {}
+		}
+	}
+	async play(e) {
+		if (this.disposed) return !1;
+		this.stop();
+		let t = this.serial;
+		if (this.activeId = e.id, !e.audio) return this.onStatus("missing", e.id), !1;
+		this.audio.src = e.audio, this.audio.volume = Math.max(0, Math.min(1, e.volume ?? .8)), this.audio.muted = this.muted, this.audio.playbackRate = 1, this.audio.loop = !1, this.ensureAnalysis(), (this.context?.resume?.())?.catch?.(() => {});
+		try {
+			return await this.audio.play(), t !== this.serial || this.disposed ? !1 : (this.onStatus("playing", e.id), !0);
+		} catch (n) {
+			return t === this.serial && !this.disposed && this.onStatus(n?.name === "NotAllowedError" ? "blocked" : "error", e.id), !1;
+		}
+	}
+	stop() {
+		this.serial++, this.audio.pause();
+		try {
+			this.audio.currentTime = 0;
+		} catch {}
+		this.audio.removeAttribute("src"), this.audio.load(), this.activeId = null;
+	}
+	setMuted(e) {
+		return this.muted = !!e, this.audio.muted = this.muted, this.muted;
+	}
+	sample() {
+		let e = !!this.activeId && !this.audio.paused && !this.audio.ended, t = 0, n = 0;
+		if (e && this.analyser) {
+			this.analyser.getFloatTimeDomainData(this.samples);
+			for (let e of this.samples) t += e * e, n = Math.max(n, Math.abs(e));
+			t = Math.sqrt(t / this.samples.length);
+		}
+		let r = Number.isFinite(this.audio.duration) ? this.audio.duration : 0;
+		return {
+			playing: e,
+			rms: t,
+			peak: n,
+			time: this.audio.currentTime || 0,
+			duration: r,
+			progress: r ? Math.min(1, this.audio.currentTime / r) : 0,
+			analysisAvailable: !!this.analyser
+		};
+	}
+	dispose() {
+		this.disposed || (this.disposed = !0, this.stop(), this.audio.removeEventListener("ended", this.ended), this.audio.removeEventListener("error", this.failed), this.source?.disconnect(), this.analyser?.disconnect(), this.context?.close?.()?.catch?.(() => {}), this.context = null, this.analyser = null);
+	}
+}, t = () => ({
+	level: 0,
+	previous: 0,
+	attack: 0,
+	beat: 0,
+	sign: 1
+});
+function n(e, t, n) {
+	let r = t.playing ? Math.min(1, t.rms * 5) : 0, i = 1 - Math.exp(-Math.min(.1, n) / (r > e.level ? .045 : .24));
+	e.previous = e.level, e.level += (r - e.level) * i;
+	let a = Math.max(0, e.level - e.previous);
+	return a > .018 && (e.attack = Math.min(1, e.attack + a * 8), e.beat++, e.sign = e.beat % 2 ? 1 : -1), e.attack *= Math.exp(-Math.min(.1, n) * 7), e;
+}
+function r(e, t, n, { reduced: r = !1, limit: i = 40 } = {}) {
+	if (r || !n.playing || !n.analysisAvailable) return {
+		x: 0,
+		y: 0,
+		scale: 1,
+		angle: 0
+	};
+	let a = t.level, o = t.attack, s = n.time, c = 0, l = 0, u = 1, d = 0;
+	e === "laughter" && (c = Math.sin(s * 1.73) * a * 1.5, l = Math.sin(s * 2.21 + .4) * a * 1.8, u += a * .012 + o * .009), e === "spell" && (c = Math.sin(s * .8) * a * 1.7, d = Math.sin(s * .65) * a * .8, u += o * .009), e === "percussion" && (u += o * .026, l = -o * 1.5), e === "ascending" && (l = -n.progress * 8 - a * 1.2, c = Math.sin(s * .55) * a * .7), e === "mechanical" && (c = Math.sin(s * 83) * a * .35, l = Math.cos(s * 101) * a * .2), e === "clucks" && (c = t.sign * o * 1.4, l = -o * .8, d = t.sign * o * 1.1);
+	let f = Math.hypot(c, l);
+	return f > i && (c *= i / f, l *= i / f), {
+		x: c,
+		y: l,
+		scale: u,
+		angle: d
+	};
+}
+// sound-experience/src/reference/physics.js
+var i = (e) => Math.PI * 2 / e;
+Object.freeze({
+	bubble: {
+		reach: 140,
+		displacement: 25,
+		stiffness: 24,
+		damping: 6.8,
+		spin: i(30),
+		tilt: .08,
+		repel: !0
+	},
+	marble: {
+		reach: 110,
+		displacement: 3,
+		stiffness: 16,
+		damping: 9,
+		spin: i(18.4),
+		tilt: .025,
+		repel: !1
+	},
+	glass: {
+		reach: 130,
+		displacement: 10,
+		stiffness: 29,
+		damping: 10,
+		spin: i(24),
+		tilt: .055,
+		repel: !1
+	},
+	metal: {
+		reach: 110,
+		displacement: 4,
+		stiffness: 22,
+		damping: 11,
+		spin: i(20),
+		tilt: .03,
+		repel: !1
+	},
+	stone: {
+		reach: 110,
+		displacement: 2,
+		stiffness: 14,
+		damping: 9,
+		spin: i(22),
+		tilt: .02,
+		repel: !1
+	},
+	grass: {
+		reach: 115,
+		displacement: 5,
+		stiffness: 48,
+		damping: 13,
+		spin: 0,
+		tilt: .04,
+		repel: !1
+	},
+	pom: {
+		reach: 125,
+		displacement: 7,
+		stiffness: 30,
+		damping: 6.8,
+		spin: 0,
+		tilt: .07,
+		repel: !1
+	},
+	balloon: {
+		reach: 145,
+		displacement: 12,
+		stiffness: 22,
+		damping: 6,
+		spin: 0,
+		tilt: .06,
+		repel: !0
+	},
+	wood: {
+		reach: 110,
+		displacement: 4,
+		stiffness: 22,
+		damping: 10,
+		spin: i(24),
+		tilt: .03,
+		repel: !1
+	}
+});
+var a = (e) => e * e * (3 - 2 * e);
+// sound-experience/src/reference/center-presentation.js
+function o(e, t) {
+	let n = Math.min(e < 600 ? 236 : 240, e - 32, t - 160);
+	return {
+		resting: Math.min(200, n - 24),
+		expanded: n
+	};
+}
+function s(e, t, n) {
+	let r = (e) => Math.max(0, Math.min(1, e)), i = t === "selected" ? {
+		circle: 1,
+		copy: 0,
+		discovery: 0
+	} : t === "discovery" ? {
+		circle: 1,
+		copy: 0,
+		discovery: 1
+	} : {
+		circle: 0,
+		copy: 1,
+		discovery: 0
+	}, o = { circle: e.circle + (i.circle - e.circle) * a(n) };
+	for (let s of ["copy", "discovery"]) {
+		let c = i[s] > e[s] ? a(r((n - (t === "resting" ? .5 : .2)) / (t === "resting" ? .5 : .65))) : a(r(n / .55));
+		o[s] = e[s] + (i[s] - e[s]) * c;
+	}
+	return o;
+}
+// sound-experience/src/layout.js
+function c(e, t, n = 6) {
+	let r = e < 600, i = e <= 360, a = r ? i ? 56 : 64 : 72, s = i ? 104 : 138, c = [
+		92,
+		138,
+		138,
+		138,
+		106,
+		126,
+		100
+	], l = [
+		18,
+		36,
+		36,
+		36,
+		i ? 36 : 18,
+		i ? 36 : 18,
+		18
+	], u = o(e, t);
+	if (r && n === 7) {
+		let t = {
+			x: e / 2,
+			y: 220
+		}, n = [4, 3].flatMap((n, r) => Array.from({ length: n }, (i, a) => ({
+			x: t.x + (a - (n - 1) / 2) * e / 4,
+			y: 382 + r * 138
+		})));
+		return {
+			center: t,
+			outer: a,
+			selected: a / .6,
+			labelWidth: e / 4 - 6,
+			labelHeight: 54,
+			circle: u,
+			homes: n
+		};
+	}
+	let d = (e, t) => Math.hypot(Math.max(e.x - t.x, 0, t.x - e.right), Math.max(e.y - t.y, 0, t.y - e.bottom)), f;
+	for (let i = 1; i >= .6; i -= .02) {
+		let o = a * i, p = o / .6, m = 72 + o / 2, h = t - o * 1.08 - 36 - 14, g = {
+			x: e / 2,
+			y: (m + h) / 2
+		}, _ = Math.min((r ? 264 : 224) * i, (h - m) / 2), v = r ? Math.min(144, e / 2 - 8 - s / 2) : Math.min(224 * i, e / 2 - 22 - s / 2), y = (r ? [
+			[0, -_],
+			[v, -_ * .92],
+			[v, _ * .5],
+			[0, _],
+			[-v, _ * .5],
+			[-v, -_ * .92]
+		] : Array.from({ length: n }, (e, t) => {
+			let r = -Math.PI / 2 + t * 2 * Math.PI / n;
+			return [Math.cos(r) * v, Math.sin(r) * _];
+		})).map(([e, t]) => ({
+			x: e + g.x,
+			y: t + g.y
+		})), b = {
+			resting: u.resting * i,
+			expanded: u.expanded * i
+		};
+		f = {
+			center: g,
+			outer: o,
+			selected: p,
+			labelWidth: s,
+			labelHeight: 36,
+			circle: b,
+			homes: y
+		};
+		let x = y.map((e, t) => {
+			let n = Math.min(c[t], s);
+			return {
+				x: e.x - n / 2,
+				right: e.x + n / 2,
+				y: e.y + o * 1.08,
+				bottom: e.y + o * 1.08 + l[t]
+			};
+		});
+		if (y.every((e) => Math.hypot(e.x - g.x, e.y - g.y) >= b.expanded / 2 + o / 2 + 7) && x.every((e, t) => d(e, g) >= b.expanded / 2 + 4 && y.every((n, r) => t === r || d(e, n) >= o / 2 + 4))) break;
+	}
+	return f;
+}
+var l = (e) => (e = Math.max(0, Math.min(1, e)), e * e * (3 - 2 * e)), u = (e, t, n) => e + (t - e) * n, d = class {
+	constructor(n, r, i, a = c) {
+		this.computeLayout = a, this.root = n, this.copy = i, this.stage = n.querySelector("#sound-stage"), this.disc = n.querySelector("#central-disc"), this.restCopy = n.querySelector("#resting-copy"), this.question = n.querySelector("#sound-question"), this.status = n.querySelector("#playback-status"), this.selectedTitle = n.querySelector("[data-selected-title]"), this.caption = n.querySelector("#sound-caption"), this.abort = new AbortController(), this.active = null, this.transition = null, this.focus = 0, this.ambientTime = 0, this.energy = t(), this.generation = 0, this.questionTimer = null, this.disposed = !1, this.query = matchMedia("(prefers-reduced-motion: reduce)"), this.forceReduced = new URLSearchParams(location.search).get("motion") === "reduce", this.reduced = this.query.matches || this.forceReduced, this.presentation = {
+			circle: 0,
+			copy: 1,
+			discovery: 0
+		}, this.root.dataset.reduced = String(this.reduced), this.root.dataset.assetsReady = String(r.every((e) => e.image && e.audio)), document.title = i.documentTitle, this.stage.setAttribute("aria-label", i.accessibility.stage), this.restCopy.querySelector("h1").textContent = i.heading, this.restCopy.querySelector("p").textContent = i.subtitle, this.back = n.querySelector("#collection"), this.back.textContent = i.controls.back, this.back.setAttribute("aria-label", i.accessibility.collection), this.replay = n.querySelector("#replay"), this.replay.textContent = i.controls.replay, this.mute = n.querySelector("#mute"), this.player = new e(n.querySelector("audio"), { onStatus: (e, t) => this.audioStatus(e, t) }), this.syncMute();
+		let o = (e, t, n) => e.addEventListener(t, n, { signal: this.abort.signal });
+		this.items = r.map((e, t) => {
+			let r = document.createElement("button");
+			r.type = "button", r.className = "sound-item", r.dataset.id = e.id, r.dataset.imageMissing = String(!e.image), r.setAttribute("aria-label", `${i.accessibility.select} ${e.title}`), r.setAttribute("aria-pressed", "false");
+			let a = document.createElement("span");
+			a.className = "sound-image";
+			let s = document.createElement("img");
+			s.alt = "", s.draggable = !1, s.style.objectPosition = e.imagePosition || "50% 50%", e.image ? (s.src = e.image, o(s, "error", () => {
+				r.dataset.imageMissing = "true", r.dataset.imageError = "true";
+			})) : s.hidden = !0, a.append(s);
+			let c = document.createElement("span");
+			c.className = "sound-label", c.textContent = e.title, r.append(a, c), n.querySelector("#sound-items").append(r);
+			let l = document.createElement("div");
+			l.className = "sound-shadow", n.querySelector("#sound-shadows").append(l);
+			let u = {
+				...e,
+				index: t,
+				button: r,
+				visual: a,
+				shadow: l,
+				current: null,
+				lift: 0,
+				bob: 0
+			};
+			return o(r, "click", () => {
+				this.active !== u && this.select(u);
+			}), u;
+		}), this.vacant = document.createElement("button"), this.vacant.type = "button", this.vacant.className = "vacant-sound", this.vacant.hidden = !0, n.querySelector("#sound-items").append(this.vacant), o(this.vacant, "click", () => this.reset()), o(this.back, "click", () => this.reset()), o(this.replay, "click", () => {
+			this.active && this.play(this.active);
+		}), o(this.mute, "click", () => {
+			this.player.setMuted(!this.player.muted), this.syncMute();
+		}), o(document, "keydown", (e) => {
+			e.key === "Escape" && this.active && (e.preventDefault(), this.reset());
+		}), o(this.query, "change", (e) => {
+			this.reduced = e.matches || this.forceReduced, this.root.dataset.reduced = String(this.reduced), this.transition && (this.transition.elapsed = i.timing.selection, this.advance(0)), this.render();
+		}), o(document, "visibilitychange", () => {
+			this.last = performance.now();
+		}), this.resize = new ResizeObserver(() => this.layout()), this.resize.observe(this.stage), this.layout(), this.last = performance.now(), this.loop = (e) => {
+			if (this.disposed) return;
+			let t = Math.min(.1, Math.max(0, (e - this.last) / 1e3));
+			this.last = e, document.hidden || (this.advance(t), this.render()), this.frame = requestAnimationFrame(this.loop);
+		}, this.frame = requestAnimationFrame(this.loop);
+	}
+	syncMute() {
+		this.mute.textContent = this.player.muted ? this.copy.controls.unmute : this.copy.controls.mute, this.mute.setAttribute("aria-label", this.player.muted ? this.copy.accessibility.unmute : this.copy.accessibility.mute), this.mute.setAttribute("aria-pressed", String(this.player.muted));
+	}
+	audioStatus(e, t) {
+		this.active?.id !== t || this.disposed || (this.root.dataset.playback = e, this.status.textContent = this.copy.status[e] || "", this.replay.disabled = !this.active.audio);
+	}
+	play(e) {
+		this.energy = t(), this.status.textContent = "", this.root.dataset.playback = "starting", this.player.play(e);
+	}
+	layout() {
+		this.geometry = this.computeLayout(this.stage.clientWidth, this.stage.clientHeight, this.items.length), this.transition = null, this.root.dataset.state === "resting" && this.active && (this.active.button.setAttribute("aria-pressed", "false"), this.active = null), this.focus = +!!this.active, this.presentation = {
+			circle: this.focus,
+			copy: 1 - this.focus,
+			discovery: 0
+		};
+		for (let e of this.items) e.home = this.geometry.homes[e.index], e.lift = +(this.active === e), e.current = { ...this.active === e ? this.geometry.center : e.home };
+		this.syncControls(), this.render();
+	}
+	syncControls() {
+		let e = !!this.active && this.root.dataset.state === "selected";
+		this.back.hidden = this.replay.hidden = this.vacant.hidden = !e, this.selectedTitle && (this.selectedTitle.hidden = !e, this.selectedTitle.textContent = e ? this.active.title : ""), this.active && (this.replay.disabled = !this.active.audio, this.replay.setAttribute("aria-label", `${this.copy.accessibility.replay} ${this.active.title}`), this.vacant.setAttribute("aria-label", `${this.copy.accessibility.return}: ${this.active.title}`));
+	}
+	animate(e) {
+		let t = new Map(this.items.map((t) => [t.id, {
+			from: {
+				x: t.current.x,
+				y: t.current.y + t.bob
+			},
+			to: { ...this.active === t && !e ? this.geometry.center : t.home },
+			lift: t.lift,
+			pose: t.pose || {
+				x: 0,
+				y: 0,
+				angle: 0,
+				scale: 1
+			}
+		}]));
+		this.transition = {
+			points: t,
+			returning: e,
+			elapsed: 0,
+			presentation: { ...this.presentation },
+			focus: this.focus
+		}, this.reduced && this.advance(0);
+	}
+	select(e) {
+		clearTimeout(this.questionTimer), this.generation++, this.question.style.opacity = "0", this.caption.hidden = !0, this.active?.button.setAttribute("aria-pressed", "false"), this.active = e, e.button.setAttribute("aria-pressed", "true"), this.root.dataset.state = "selected", this.animate(!1), this.syncControls(), this.play(e);
+		let t = this.generation;
+		this.questionTimer = setTimeout(() => {
+			t !== this.generation || this.disposed || (this.caption.textContent = e.caption || "", this.caption.hidden = !e.caption, this.question.textContent = e.question, this.question.style.opacity = "1");
+		}, this.reduced ? 0 : this.copy.timing.questionDelay * 1e3), e.button.focus({ preventScroll: !0 }), this.render();
+	}
+	reset(e = !1) {
+		!this.active || !e && this.transition?.returning || (this.generation++, clearTimeout(this.questionTimer), this.player.stop(), this.energy = t(), this.status.textContent = "", this.root.dataset.playback = "idle", this.question.style.opacity = "0", this.root.dataset.state = "resting", this.caption.hidden = !0, e ? (this.question.textContent = "", this.layout()) : (this.animate(!0), this.syncControls(), this.render()));
+	}
+	advance(e) {
+		if (!this.reduced && !this.active && (this.ambientTime += e), this.transition) {
+			let t = this.transition;
+			t.elapsed += e;
+			let n = this.reduced ? 1 : Math.min(1, t.elapsed / this.copy.timing.selection), r = l(n);
+			this.focus = u(t.focus, +!t.returning, r), this.presentation = s(t.presentation, t.returning ? "resting" : "selected", n);
+			for (let e of this.items) {
+				let n = t.points.get(e.id);
+				e.current = {
+					x: u(n.from.x, n.to.x, r),
+					y: u(n.from.y, n.to.y, r)
+				}, e.lift = u(n.lift, +(this.active === e && !t.returning), r);
+			}
+			if (n === 1) {
+				if (t.returning) {
+					let e = this.active;
+					this.active = null, e?.button.setAttribute("aria-pressed", "false"), e?.button.focus({ preventScroll: !0 }), this.question.textContent = "";
+				}
+				this.transition = null, this.syncControls();
+			}
+		}
+		this.sample = this.player.sample(), n(this.energy, this.sample, e);
+	}
+	render() {
+		if (!this.geometry) return;
+		this.root.setAttribute("aria-busy", String(!!this.transition));
+		let e = this.geometry, t = u(e.circle.resting, e.circle.expanded, this.presentation.circle);
+		Object.assign(this.disc.style, {
+			left: `${e.center.x}px`,
+			top: `${e.center.y}px`,
+			width: `${t}px`,
+			height: `${t}px`
+		}), this.restCopy.style.opacity = String(this.presentation.copy), this.restCopy.setAttribute("aria-hidden", String(this.presentation.copy === 0));
+		for (let n of this.items) {
+			let i = u(e.outer, e.selected, n.lift), a = this.active === n, o = !this.reduced && !this.active && !this.transition ? Math.sin(this.ambientTime * .7 + n.index * 1.7) * .8 : 0;
+			n.bob = o;
+			let s = a && !this.transition ? r(n.behavior, this.energy, this.sample || this.player.sample(), {
+				reduced: this.reduced,
+				limit: Math.max(0, t / 2 - i * .52 - 8)
+			}) : {
+				x: 0,
+				y: 0,
+				scale: 1,
+				angle: 0
+			};
+			if (this.transition) {
+				let e = this.transition.points.get(n.id).pose, t = l(this.transition.elapsed / this.copy.timing.selection);
+				s = {
+					x: u(e.x, 0, t),
+					y: u(e.y, 0, t),
+					angle: u(e.angle, 0, t),
+					scale: u(e.scale, 1, t)
+				};
+			}
+			n.pose = s, Object.assign(n.button.style, {
+				left: `${n.current.x}px`,
+				top: `${n.current.y + o}px`,
+				width: `${i}px`,
+				height: `${i}px`,
+				zIndex: a ? "4" : "2"
+			}), n.visual.style.transform = `translate(${s.x}px,${s.y}px) rotate(${s.angle}deg) scale(${s.scale})`, Object.assign(n.shadow.style, {
+				left: `${n.current.x + i * .08}px`,
+				top: `${n.current.y + i * .82}px`,
+				width: `${i * 1.45}px`,
+				height: `${i * .26}px`,
+				opacity: String(a ? .8 : 1)
+			}), n.shadow.dataset.selected = String(a);
+		}
+		this.active && Object.assign(this.vacant.style, {
+			left: `${this.active.home.x}px`,
+			top: `${this.active.home.y}px`,
+			width: `${e.outer}px`,
+			height: `${e.outer}px`
+		});
+	}
+	dispose() {
+		if (!this.disposed) {
+			this.disposed = !0, cancelAnimationFrame(this.frame), clearTimeout(this.questionTimer), this.abort.abort(), this.resize.disconnect(), this.player.dispose();
+			for (let e of this.items) e.button.remove(), e.shadow.remove();
+			this.vacant.remove();
+		}
+	}
+}, f = {
+	documentTitle: "What curiosity sounds like · Deanne",
+	heading: "What curiosity sounds like",
+	subtitle: "Choose a sound to explore.",
+	controls: {
+		back: "← Collection",
+		replay: "Replay",
+		mute: "Mute",
+		unmute: "Unmute"
+	},
+	accessibility: {
+		stage: "Explore the sounds",
+		collection: "Return to the sound collection",
+		replay: "Replay",
+		mute: "Mute sound",
+		unmute: "Unmute sound",
+		select: "Listen to",
+		return: "Return to its original place"
+	},
+	status: {
+		missing: "The recording has not been supplied yet.",
+		blocked: "Playback could not start. Choose Replay to try again.",
+		error: "This recording could not load. Choose Replay to try again."
+	},
+	timing: {
+		selection: .8,
+		questionDelay: .45,
+		questionFade: .35
+	}
+}, p = [
+	{
+		id: "baby",
+		title: "Laughing Baby",
+		image: "assets/laughing-baby.jpg",
+		imagePosition: "50% 33%",
+		audio: "assets/baby.mp3",
+		question: "What does joy sound like when it doesn't need a reason?",
+		behavior: "laughter",
+		volume: .8
+	},
+	{
+		id: "honey-badger",
+		title: "Honey Badger Love Spell",
+		image: "assets/honey-badger.png",
+		imagePosition: "75% 50%",
+		audio: "assets/honey-badger.mp3",
+		question: "At what point would you begin questioning the spellcaster's qualifications?",
+		behavior: "spell",
+		volume: .8
+	},
+	{
+		id: "drumline",
+		title: "New Orleans Drumline",
+		image: "assets/drumline.png",
+		imagePosition: "50% 55%",
+		audio: "assets/drumline.mp3",
+		question: "What's the moment when the rhythm becomes impossible to ignore?",
+		behavior: "percussion",
+		volume: .8
+	},
+	{
+		id: "endora",
+		title: "Endora Goes to Cloud 9",
+		image: "assets/endora.png",
+		imagePosition: "50% 40%",
+		audio: "assets/endora.mp3",
+		question: "Which sound makes the impossible seem perfectly ordinary?",
+		behavior: "ascending",
+		volume: .8
+	},
+	{
+		id: "coffee",
+		title: "Coffee Machine",
+		image: "assets/coffee.png",
+		imagePosition: "50% 55%",
+		audio: "assets/coffee.wav",
+		question: "How many different sounds make up something so familiar?",
+		behavior: "mechanical",
+		volume: .8
+	},
+	{
+		id: "tell-me-more",
+		title: "Tell Me More",
+		image: "assets/tell-me-more.jpg",
+		audio: "assets/tell-me-more.mp3",
+		caption: "Curiosity doesn't always need a question mark.",
+		question: "What changes in how something feels when you want to understand it rather than respond to it?",
+		behavior: "spell",
+		volume: .8
+	},
+	{
+		id: "mars-rover",
+		title: "Mars Rover",
+		image: "assets/mars-rover.jpg",
+		imagePosition: "25% 50%",
+		audio: "assets/mars-rover.wav",
+		caption: "A little noise from 140 million miles away.",
+		question: "What part of this sounds like somewhere you've been before?",
+		behavior: "mechanical",
+		volume: .8
+	}
+], m = 520;
+function h(e, t, n = 97, r = 3) {
+	let i = window.frameElement?.closest(".collection") && window.parent.matchMedia("(min-width:990px)").matches, a = e >= 480 || i, o = a ? Math.min(1, e / m) : 1, s = {
+		x: e / 2,
+		y: a ? 360 : 242
+	}, c = (a ? 88 * o : Math.min(72, e / r - (r === 4 ? 16 : 24))) + 5, l = 190 * o, u = a ? Math.max(140, 200 * o) : 176;
+	return document.documentElement.toggleAttribute("data-grid-layout", !a), document.documentElement.style.setProperty("--hub-size", `${u}px`), document.documentElement.style.setProperty("--hub-y", `${s.y}px`), {
+		center: s,
+		outer: c,
+		points: Array.from({ length: t }, (i, o) => {
+			if (a) {
+				let e = -Math.PI / 2 + 2 * Math.PI / t * o, n = s.y + l * Math.sin(e);
+				return {
+					x: s.x + l * Math.cos(e),
+					y: Math.max(n, 160 + c / 2)
+				};
+			}
+			let u = Math.floor(o / r), d = Math.min(r, t - u * r);
+			return {
+				x: s.x + (o % r - (d - 1) / 2) * e / r,
+				y: 368 + u * n
+			};
+		}),
+		scale: o,
+		circle: {
+			resting: u,
+			expanded: u
+		}
+	};
+}
+function g(e, t, n) {
+	let r = n > 6 ? 4 : 3;
+	document.documentElement.style.setProperty("--audio-grid-columns", r);
+	let { points: i, ...a } = h(e, n, 130, r);
+	return {
+		...a,
+		homes: i,
+		selected: 120 * a.scale
+	};
+}
+// curiosity-collection/src/panel-events.js
+function _() {
+	return window.frameElement?.dispatchEvent(new Event("curiosity:open", {
+		bubbles: !0,
+		cancelable: !0
+	})) ?? !0;
+}
+function v() {
+	return window.frameElement?.dispatchEvent(new Event("curiosity:return", {
+		bubbles: !0,
+		cancelable: !0
+	})) ?? !0;
+}
+function y(e, t, n) {
+	window.addEventListener("curiosity:activate", e), window.addEventListener("curiosity:closing", t), window.addEventListener("curiosity:close", n);
+}
+// curiosity-collection/src/audio.js
+var b = document.querySelector("#sound-experience"), x = b.querySelector(".audio-gate"), S = new d(b, p, f, g);
+function C() {
+	S.reset(!0);
+	for (let e of S.items) e.button.disabled = !0;
+	b.dataset.collectionOpen = "false", x.setAttribute("aria-expanded", "false"), x.setAttribute("aria-label", `${f.heading}. Click to discover.`);
+}
+function w() {
+	b.dataset.collectionOpen = "false", S.player.stop();
+}
+function T() {
+	for (let e of S.items) e.button.disabled = !1;
+	b.dataset.collectionOpen = "true", x.setAttribute("aria-expanded", "true"), x.setAttribute("aria-label", "Close the sound collection");
+}
+x.addEventListener("click", () => {
+	b.dataset.collectionOpen === "true" ? v() && C() : _() && T();
+}), C(), y(T, w, C), document.addEventListener("keydown", (e) => {
+	e.key === "Escape" && !e.defaultPrevented && b.dataset.collectionOpen === "true" && v() && (C(), x.focus({ preventScroll: !0 }));
+}), window.addEventListener("pagehide", (e) => {
+	e.persisted || S.dispose();
+});
+</script>
+</body>
+</html>
