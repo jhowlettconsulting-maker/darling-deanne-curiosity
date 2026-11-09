@@ -20,7 +20,8 @@ function alignActive(){
  panel.style.setProperty('--shift-x',`${center-panel.offsetLeft-panel.offsetWidth/2}px`);
  panel.style.setProperty('--shift-y',`${48-panel.offsetTop}px`);
  // The middle circle takes the vacated side slot when a side circle opens.
- middlePanel.style.setProperty('--peer-shift-x',`${panel.offsetLeft-middlePanel.offsetLeft}px`);
+ const restOffset=parseFloat(getComputedStyle(panel).getPropertyValue('--rest-x'));
+ middlePanel.style.setProperty('--peer-shift-x',`${panel.offsetLeft+restOffset-middlePanel.offsetLeft}px`);
 }
 
 function afterMotion(duration,callback){

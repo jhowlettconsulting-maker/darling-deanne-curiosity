@@ -21,7 +21,9 @@
       overflow:clip;
     }
     .panel {
+      --rest-x:0px;
       position:relative; min-width:0; opacity:1;
+      transform:translateX(var(--rest-x));
       transform-origin:50% 360px;
       transition:transform 420ms cubic-bezier(.22,.61,.36,1), opacity 320ms ease;
     }
@@ -31,6 +33,8 @@
       transform:translate(var(--shift-x),-8px) scale(1.04);
     }
     @media (min-width:990px) {
+      .panel:nth-of-type(1) { --rest-x:25px; }
+      .panel:nth-of-type(3) { --rest-x:-25px; }
       .panel::after {
         content:""; position:absolute; top:360px; left:50%;
         width:clamp(140px,38.46%,200px); aspect-ratio:1;
@@ -40,7 +44,7 @@
         opacity:0; transition:opacity 320ms ease;
       }
       .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel:not([data-active]) {
-        opacity:.26; transform:translateX(var(--peer-shift-x,0px));
+        opacity:.26; transform:translateX(var(--peer-shift-x,var(--rest-x)));
       }
       .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel:not([data-active]) iframe { filter:blur(3px); }
       .collection:is([data-phase="opening"],[data-phase="open"],[data-phase="collapsing"]) .panel:not([data-active])::after { opacity:1; }
@@ -69,10 +73,10 @@
 <body>
   <main class="collection" aria-label="Follow Your Curiosity" data-phase="overview">
     <button class="close" type="button" hidden>Close <span aria-hidden="true">×</span></button>
-    <div class="panel"><iframe src="audio.html?v=31eb7f5626af" title="Audio — What curiosity sounds like" allow="autoplay"></iframe></div>
-    <div class="panel"><iframe src="textures.html?v=a5d5fe042b22" title="Textures — Follow Your Curiosity"></iframe></div>
-    <div class="panel"><iframe src="stuart.html?v=89a2c1fb2750" title="Stuart — What happens when"></iframe></div>
+    <div class="panel"><iframe src="audio.html?v=b18b8de37e01" title="Audio — What curiosity sounds like" allow="autoplay"></iframe></div>
+    <div class="panel"><iframe src="textures.html?v=bb65e2f2d759" title="Textures — Follow Your Curiosity"></iframe></div>
+    <div class="panel"><iframe src="stuart.html?v=b05839dfa1c8" title="Stuart — What happens when"></iframe></div>
   </main>
-  <script type="module" src="collection.js?v=bc0aa799db0b"></script>
+  <script type="module" src="collection.js?v=d016d9f66082"></script>
 </body>
 </html>

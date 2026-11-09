@@ -11,14 +11,17 @@
 /*$vite$:1*/
 :root {
  --circle-title-leading:calc(.9em + 2px);
- --open-title-top:105px;
- --open-question-top:597px;
+ --open-title-top:88px;
+ --open-question-top:clamp(570px,calc(508px + 20vw),612px);
  --open-title-size:44px;
  --open-question-size:24px;
+ --open-copy-gap:6px;
+ --open-support:300 14px/20px Inter, Arial, sans-serif;
+ --open-action:400 14px/18px Inter, Arial, sans-serif;
  --open-serif:"Cormorant Garamond", Georgia, serif;
 }
 /* The stacked grid needs room for the last row's hover captions. */
-[data-grid-layout] { --open-question-top:620px; }
+[data-grid-layout] { --open-title-top:105px; --open-question-top:620px; }
 @media(max-width:479px) {
  :root { --open-title-size:clamp(26px,9.25vw,36px); --open-question-size:22px; }
 }
@@ -111,19 +114,25 @@ html,body { height:100%; margin:0; background:transparent; }
 .sound-selected-title,#material-caption h1 {
  top:var(--open-title-top); font:400 var(--open-title-size)/1.1 var(--open-serif); letter-spacing:-.005em;
 }
-.question-band { min-height:0; gap:0; padding:0 16px 24px; }
-.sound-caption { margin-bottom:4px; color:var(--quiet); font:300 14px/18px var(--sans); }
+.question-band { min-height:0; gap:var(--open-copy-gap); padding:0 12px; }
+.sound-caption { margin:0; color:var(--faint); font:var(--open-support); }
+.sound-experience .replay-control {
+ position:static; transform:none; flex:none; min-height:0; padding:1px 8px;
+ border:0; color:var(--faint); font:var(--open-action);
+}
+.sound-experience .replay-control:hover { color:var(--ink); }
 .sound-question { --sound-question-size:var(--open-question-size); }
 .sound-question,#material-question {
  color:var(--question);
  font:500 var(--sound-question-size,var(--open-question-size))/1.25 var(--open-serif);
  text-wrap:balance;
 }
+.question-band:has(.sound-caption:not([hidden])) .sound-question { --sound-question-size:22px; }
 .playback-status { position:static; margin:2px 0 0; font:300 13px/17px var(--sans); }
 /* Leave room for Endora's label at the bottom of the orbit. */
 @media (min-width:420px) {
  :root:not([data-grid-layout]) .sound-experience[data-state="selected"]:has(.sound-item[data-id="endora"]:not([aria-pressed="true"]):is(:hover,:focus-visible)) .question-band {
-  padding-top:calc(var(--endora-clearance,625px) - var(--open-question-top));
+  padding-top:max(0px,calc(var(--endora-clearance,625px) - var(--open-question-top)));
  }
 }
 
@@ -150,8 +159,10 @@ html,body { height:100%; margin:0; background:transparent; }
 @media(max-width:479px) {
  .sound-experience { --endora-clearance:612px; }
  [data-grid-layout] .sound-label { max-width:calc(100vw / var(--audio-grid-columns,3) - 4px); }
+ [data-grid-layout] .question-band { gap:5px; }
+ [data-grid-layout] .sound-caption { line-height:18px; }
  [data-grid-layout] .sound-experience:has(.sound-caption:not([hidden])) { grid-template-rows:calc(var(--open-question-top) - 36px) minmax(0,1fr); }
- [data-grid-layout] .sound-caption:not([hidden]) + .sound-question { --sound-question-size:20px; }
+ [data-grid-layout] .question-band:has(.sound-caption:not([hidden])) .sound-question { --sound-question-size:20px; }
  [data-grid-layout] .texture-label {
   top:calc(100% + 2px);
   max-width:calc(100vw / 3 - 6px);
@@ -12611,21 +12622,22 @@ function Gl(e, t, n = 97, r = 3) {
 	return document.documentElement.toggleAttribute("data-grid-layout", !a), document.documentElement.style.setProperty("--hub-size", `${u}px`), document.documentElement.style.setProperty("--hub-y", `${s.y}px`), {
 		center: s,
 		outer: c,
-		points: Array.from({ length: t }, (i, o) => {
+		points: Array.from({ length: t }, (i, u) => {
 			if (a) {
-				let e = -Math.PI / 2 + 2 * Math.PI / t * o, n = s.y + l * Math.sin(e);
+				let e = -Math.PI / 2 + 2 * Math.PI / t * u, n = s.y + l * Math.sin(e), r = Math.max(160 + c / 2, Math.min(n, s.y + 160 * o));
 				return {
 					x: s.x + l * Math.cos(e),
-					y: Math.max(n, 160 + c / 2)
+					y: r
 				};
 			}
-			let u = Math.floor(o / r), d = Math.min(r, t - u * r);
+			let d = Math.floor(u / r), f = Math.min(r, t - d * r);
 			return {
-				x: s.x + (o % r - (d - 1) / 2) * e / r,
-				y: 368 + u * n
+				x: s.x + (u % r - (f - 1) / 2) * e / r,
+				y: 368 + d * n
 			};
 		}),
 		scale: o,
+		orbit: a,
 		circle: {
 			resting: u,
 			expanded: u
@@ -12634,6 +12646,10 @@ function Gl(e, t, n = 97, r = 3) {
 }
 function Kl(e, t, n) {
 	let r = Gl(e, n);
+	if (r.orbit) {
+		let { center: e, circle: t, outer: n, points: i } = r, a = e.y - t.resting / 2 - n / 2 - 22;
+		i[0].y = Math.min(i[0].y, Math.max(145 + n / 2, a));
+	}
 	return {
 		...r,
 		diameter: 120 * r.scale
